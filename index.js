@@ -59,8 +59,21 @@ try{
         res.send(options);
        
       })
+      app.post('/products/:id', async (req, res) => {
+        const id=req.params.id;
+        const query = {category_id:id};
+        const options = await productsCollection.find(query).toArray();
+        // console.log(options)
+        res.send(options);
+       
+      })
 
+      app.post('/products',async(req,res)=>{
+        const products=req.body
+        const result=await productsCollection.insertOne(products)
+        res.send(result)
 
+    })
    
 
       
@@ -98,7 +111,12 @@ try{
         res.send({ isAdmin: user?.role === 'admin' });
     })
 
-
+    app.get('/users/admin/:email', async (req, res) => {
+        const email = req.params.email;
+        const query = { email }
+        const user = await usersCollection.findOne(query);
+        res.send({ isAdmin: user?.role === 'admin' });
+    })
 
     app.put('/users/admin/:id', verifyJWT, async (req, res) => {
         const decodedEmail = req.decoded.email;
