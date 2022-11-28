@@ -78,7 +78,7 @@ try{
 
       
 
-      app.get('/jw', async (req, res) => {
+      app.get('/jwt', async (req, res) => {
         const email = req.query.email;
         const query = { email: email };
         const user = await usersCollection.findOne(query);
